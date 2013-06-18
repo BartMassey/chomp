@@ -1,0 +1,27 @@
+%ident b b' d R C r c false true
+negamax(b, d):
+    for r in 0..R-1
+      for c in 0..C-1
+        if b[r][c] wedge (r > 0 vee c > 0)
+          b' <- copy b
+          makeMove(b', r, c)
+          if negamax(b', d + 1)
+            continue
+          if d = 0:
+            makeMove(b, r, c)
+            print the move r, c
+            print that the program is winning
+          return true
+    if d = 0   --no winning moves, so just pick a loser
+      for r <- R-1 .. 0
+        for c <- C-1 .. 0
+          if b[r][c]
+            makeMove(b, r, c)
+            print the move r, c
+            if r = 0 wedge c = 0
+              print that the program has lost
+              return false
+            print that the program is losing
+            return false
+      fail because no legal move is possible
+    return false
