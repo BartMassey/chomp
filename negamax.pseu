@@ -1,4 +1,5 @@
 %ident b b' d R C r c false true
+%keyword continue fail
 negamax(b, d):
     for r in 0..R-1
       for c in 0..C-1
