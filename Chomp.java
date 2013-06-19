@@ -57,6 +57,7 @@ public class Chomp {
         printBoard(board);
         System.out.print("? ");
         String move = in.readLine();
+        System.out.println();
         int moveDigits = Integer.parseInt(move);
         int r = moveDigits / 10 - 1;
         int c = moveDigits % 10 - 1;
@@ -72,11 +73,15 @@ public class Chomp {
     }
 
     static boolean negamax(boolean[][] b, int d) {
+        int rx = 0;
+        int cx = 0;
         for (int r = 0; r < dimy; r++) {
             for (int c = 0; c < dimx; c++) {
                 if (b[r][c]) {
                     if (r == 0 && c == 0)
                         continue;
+                    rx = r;
+                    cx = c;
                     boolean[][] mb = copyBoard(b);
                     makeMove(mb, r, c);
                     if (negamax(mb, d + 1))
@@ -84,24 +89,20 @@ public class Chomp {
                     if (d == 0) {
                         System.out.println("> " + (10 * (r + 1) + (c + 1)) +
                                            " :-)");
-                        makeMove(board, r, c);
+                        makeMove(b, r, c);
                     }
                     return true;
                 }
             }
         }
         if (d == 0) {
-            for (int r = dimy - 1; r >= 0; --r) {
-                for (int c = dimx - 1; c >= 0; --c) {
-                    if (b[r][c]) {
-                        System.out.println("> " + (10 * (r + 1) + (c + 1))
-                                           + " :-P");
-                        makeMove(b, r, c);
-                        return false;
-                    }
-                }
-            }
-            throw new Error("internal error: no legal move");
+            System.out.print("> " + (10 * (rx + 1) + (cx + 1)));
+            if (rx == 0 && cx == 0)
+                System.out.println(" :-(");
+            else
+                System.out.println(" :-P");
+            makeMove(b, rx, cx);
+            System.out.println();
         }
         return false;
     }
