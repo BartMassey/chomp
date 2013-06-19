@@ -24,10 +24,15 @@
 
 7. OK, here comes the interesting part...
    &nbsp;
+   <!-- This pseudocode translated from negamax.pseu by pseuf -->
    > negamax(*b*,&nbsp;*d*):  
+   > &nbsp;&nbsp;&nbsp;&nbsp;*rx*&nbsp;&#8592;&nbsp;0  
+   > &nbsp;&nbsp;&nbsp;&nbsp;*cx*&nbsp;&#8592;&nbsp;0  
    > &nbsp;&nbsp;&nbsp;&nbsp;**for**&nbsp;*r*&nbsp;**in**&nbsp;0..R-1  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for**&nbsp;*c*&nbsp;**in**&nbsp;0..C-1  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*b*[*r*][*c*]&nbsp;&#8743;&nbsp;(*r*&nbsp;&gt;&nbsp;0&nbsp;&#8744;&nbsp;*c*&nbsp;&gt;&nbsp;0)  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*rx*&nbsp;&#8592;&nbsp;*r*  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*cx*&nbsp;&#8592;&nbsp;*c*  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*b&#x2032;*&nbsp;&#8592;&nbsp;copy&nbsp;*b*  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;makeMove(*b&#x2032;*,&nbsp;*r*,&nbsp;*c*)  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;negamax(*b&#x2032;*,&nbsp;*d*&nbsp;+&nbsp;1)  
@@ -37,19 +42,15 @@
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;the&nbsp;move&nbsp;*r*,&nbsp;*c*  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;is&nbsp;winning  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**return**&nbsp;*true*  
-   > &nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*d*&nbsp;=&nbsp;0&nbsp;--no&nbsp;winning&nbsp;moves,&nbsp;so&nbsp;just&nbsp;pick&nbsp;a&nbsp;loser  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for**&nbsp;*r*&nbsp;&#8592;&nbsp;R-1&nbsp;..&nbsp;0  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for**&nbsp;*c*&nbsp;&#8592;&nbsp;C-1&nbsp;..&nbsp;0  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*b*[*r*][*c*]  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;makeMove(*b*,&nbsp;*r*,&nbsp;*c*)  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;the&nbsp;move&nbsp;*r*,&nbsp;*c*  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*r*&nbsp;=&nbsp;0&nbsp;&#8743;&nbsp;*c*&nbsp;=&nbsp;0  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;has&nbsp;lost  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**return**&nbsp;*false*  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;is&nbsp;losing  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**return**&nbsp;*false*  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**fail**&nbsp;because&nbsp;no&nbsp;legal&nbsp;move&nbsp;is&nbsp;possible  
+   > &nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*d*&nbsp;=&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;no&nbsp;winning&nbsp;moves,&nbsp;so&nbsp;just&nbsp;pick&nbsp;a&nbsp;loser  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;makeMove(*b*,&nbsp;*rx*,&nbsp;*cx*)  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;the&nbsp;move&nbsp;*rx*,&nbsp;*cx*  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*r*&nbsp;=&nbsp;0&nbsp;&#8743;&nbsp;*c*&nbsp;=&nbsp;0  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;has&nbsp;lost  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else**&nbsp;  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;is&nbsp;losing  
    > &nbsp;&nbsp;&nbsp;&nbsp;**return**&nbsp;*false*  
+   <!-- End of pseuf translation of negamax.pseu -->
 
 8. Now you just need to write a main program that
    alternately calls negamax() and your human move()
