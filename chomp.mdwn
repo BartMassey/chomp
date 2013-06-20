@@ -45,7 +45,7 @@
    > &nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*d*&nbsp;=&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;no&nbsp;winning&nbsp;moves,&nbsp;so&nbsp;just&nbsp;pick&nbsp;a&nbsp;loser  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;makeMove(*b*,&nbsp;*rx*,&nbsp;*cx*)  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;the&nbsp;move&nbsp;*rx*,&nbsp;*cx*  
-   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*r*&nbsp;=&nbsp;0&nbsp;&#8743;&nbsp;*c*&nbsp;=&nbsp;0  
+   > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*rx*&nbsp;=&nbsp;0&nbsp;&#8743;&nbsp;*cx*&nbsp;=&nbsp;0  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;has&nbsp;lost  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**else**&nbsp;  
    > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;that&nbsp;the&nbsp;program&nbsp;is&nbsp;losing  
@@ -53,5 +53,5 @@
    <!-- End of pseuf translation of negamax.pseu -->
 
 8. Now you just need to write a main program that
-   alternately calls negamax() and your human move()
-   function until someone loses.
+   alternately calls negamax(board, 0) and your human move(board)
+   function until someone loses (check for board[0][0]).
