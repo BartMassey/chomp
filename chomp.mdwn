@@ -1,4 +1,4 @@
-# Chomp
+### Chomp -- Bart Massey 2013-06-20
 
 1. Build a move struct with a row and column index.
 
