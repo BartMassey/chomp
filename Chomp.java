@@ -44,7 +44,10 @@ public class Chomp {
         for (int r = 0; r < dimy; r++) {
             for (int c = 0; c < dimx; c++) {
                 if (b[r][c]) {
-                    System.out.print("o");
+                    if (r == 0 && c == 0)
+                        System.out.print("*");
+                    else
+                        System.out.print("o");
                 } else {
                     System.out.print(".");
                 }
