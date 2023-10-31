@@ -22,17 +22,28 @@ that allows the game to be played on the command line
 
 ## The library
 
-To represent a game board, define a `struct`.
+The game state should be represented by a `struct Board` you
+define. The most important component of the state is the
+representation of the board itself:
 
-- Use a fixed-size five-by-four (five columns, four rows)
-  array of `bool`s to represent the game state. The element
-  at index `i, j` should be `false` if the square at `i, j`
-  has been eaten, and `true` otherwise.
+* One way: use an array
 
-- Your program should support multiple board sizes. Since
-  the size of a Rust array is fixed at compile time, your
-  board type needs to have fields representing its logical
-  width and height.
+  * Use a fixed-size five-by-four (five columns, four rows)
+    array of `bool`s to represent the game state. The element
+    at index `i, j` should be `false` if the square at `i, j`
+    has been eaten, and `true` otherwise.
+
+  * Your program should support multiple board sizes. Since
+    the size of a Rust array is fixed at compile time, your
+    board type needs to have fields representing its logical
+    width and height.
+
+* Another way: use a set
+
+  * You can make a `HashSet` of tuples, where tuple `(i, j)`
+    being in the set means that position is not yet
+    eaten. You can remove elements from the set as they are
+    eaten.
 
 Your `Board` type should support the following operations
 via `impl`:
@@ -50,10 +61,29 @@ via `impl`:
 
 ### The AI
 
-The `negamax` algorithm solves any zero-sum
+The negamax algorithm solves any zero-sum
 perfect-information two-player game (like Chomp). It takes
 as input a board state and outputs a winning move, if one
 exists.
+
+<!-- This pseudocode translated from winningmove.pseu by pseuf -->
+
+> *winning-move*(*posn*):  
+> &nbsp;&nbsp;&nbsp;&nbsp;**for**&nbsp;each&nbsp;remaining&nbsp;row&nbsp;*r*  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**for**&nbsp;each&nbsp;remaining&nbsp;column&nbsp;*c*&nbsp;**in**&nbsp;*r*  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;*r*&nbsp;=&nbsp;0&nbsp;and&nbsp;*c*&nbsp;=&nbsp;0  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**continue**  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*p*&nbsp;&#8592;&nbsp;copy&nbsp;of&nbsp;*posn*  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*chomp*&nbsp;*r*,&nbsp;*c*&nbsp;from&nbsp;*p*  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*m*&nbsp;&#8592;&nbsp;*winning-move*(*p*)  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**if**&nbsp;no&nbsp;winning&nbsp;move&nbsp;is&nbsp;returned  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**return**&nbsp;the&nbsp;move&nbsp;*r*,&nbsp;*c*  
+> &nbsp;&nbsp;&nbsp;**return**&nbsp;no&nbsp;winning&nbsp;move  
+
+<!-- End of pseuf translation of winningmove.pseu -->
+
+
+Understand this pseudocode as follows:
 
 1. Check whether the board state is already lost. If so,
    then there is no winning move.
@@ -64,11 +94,11 @@ exists.
 
   2. Perform the move `m` on `p`.
 
-  3. Call `negamax` recursively at `p`. (Since one player
+  3. Call `winning_move` recursively at `p`. (Since one player
      has just made a move, we are now trying to find a
      winning move for the *other* player.)
 
-  4. If `negamax` outputs a winning move for `p`, then `m`
+  4. If `winning_move` outputs a winning move for `p`, then `m`
      is *not* a winning move for the current player. (Why?)
      Continue on to the next move.
 
@@ -114,9 +144,10 @@ they give valid input.
 - Several of your library functions should fail under
   certain conditions. (For example, creating a board with a
   width or height larger than the maximum should fail.) Use
-  `assert!` to deal with such situations.
+  `assert!` to deal with such situations, or return a
+  `Result` that can be checked.
 
-- Your "find a winning move" function should return an
+- Your `winning_move` function should return some kind of
   `Option`, since there may not be a winning move.
 
 ## Requirements
